@@ -24,24 +24,24 @@ describe('POST /todos', () => {
       var text = 'Test todo test';
 
       request(app)
-      .post('/todos')
-      .send({text})
-      .expect(200)
-      .expect((res) => {
-        expect(res.body.text).toBe(text);
-      })
-      .end((err, res) => {
-        if(err){
-          return done(err);
-        }
+        .post('/todos')
+        .send({text})
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.text).toBe(text);
+        })
+        .end((err, res) => {
+          if(err){
+            return done(err);
+          }
 
-        Todo.find({text}).then((todos) => {
-          expect(todos.length).toBe(1);
-          expect(todos[0].text).toBe(text);
-          done();
-        }).catch((err) => done(err));
+          Todo.find({text}).then((todos) => {
+            expect(todos.length).toBe(1);
+            expect(todos[0].text).toBe(text);
+            done();
+          }).catch((err) => done(err));
+        });
       });
-    });
 
     it('Should not create todo with invalid body data', (done) => {
       var text = "";
@@ -76,6 +76,7 @@ describe('GET /todos', () => {
 });
 
 describe('GET /todos/:id', () => {
+
   it('Should return todo doc', (done) => {
     request(app)
       .get(`/todos/${todos[0]._id.toHexString()}`)
@@ -84,5 +85,23 @@ describe('GET /todos/:id', () => {
         expect(res.body.todo.text).toBe(todos[0].text);
       })
       .end(done);
+  });
+
+  it('Should return 404 if todo not found', (done) => {
+    var hexString = new ObjectID().toHexString();
+
+    request(app)
+      .get(`/todos/${hexString}`)
+      .expect(404)
+      .end(done);
+  });
+
+  it('Should return 404 for non-object ids', (done) => {
+    var hexString = new ObjectID().toHexString();
+
+    request(app)
+    .get(`/todos/${hexString}`)
+    .expect(404)
+    .end(done)
   });
 });

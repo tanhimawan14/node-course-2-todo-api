@@ -1,6 +1,6 @@
-var {ObjectID} = require('mongodb');
 var express = require('express');
 var bodyParser = require('body-parser');
+var {ObjectID} = require('mongodb');
 
 var {mongoose} = require('./db/mongoose');
 var {Todo} = require('./models/todo');
@@ -22,6 +22,14 @@ app.post('/todos', (req, res) => {
   });
 });
 
+app.get('/todos', (req, res) => {
+  Todo.find().then((todos) => {
+    res.send({todos});
+  }, (err) => {
+    res.status(400).send(e);
+  });
+});
+
 app.get('/todos/:id', (req, res) => {
   var id = req.params.id;
 
@@ -36,16 +44,6 @@ app.get('/todos/:id', (req, res) => {
     res.send({todo});
   }).catch((e) => {
     res.status(400).send();
-  });
-
-  console.log(res.body.todo.text);
-});
-
-app.get('/todos', (req, res) => {
-  Todo.find().then((todos) => {
-    res.send({todos});
-  }, (err) => {
-    res.status(400).send(e);
   });
 });
 
