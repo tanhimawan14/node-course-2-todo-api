@@ -9,7 +9,7 @@ if(env === "development" || env === "test") {
   Object.keys(envConfig).forEach((key) => {
     process.env[key] = envConfig[key];
   });
-}else if(env === "process.env.NODE_ENV") {
+}else if(env === 31167) {
   var config = require('./live.json');
   var envConfig = config[env];
 
