@@ -1,0 +1,7 @@
+{
+  "process.env.NODE_ENV": {
+    "PORT": 3000,
+    "MONGODB_URI": "mongodb://himawan:asdf1234@ds031167.mlab.com:31167/todoapp",
+    "JWT_SECRET": "ajskcxasasdafeqewfqwfcscasdsfdf43251326t533r51kcbc12323jbn1c9jck12"
+  }
+}
